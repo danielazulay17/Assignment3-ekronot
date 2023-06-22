@@ -1,4 +1,4 @@
-public class Coordinates {
+public class Position {
 
     private int x;
     private int y;
@@ -12,6 +12,13 @@ public class Coordinates {
     }
     public int getY() {
         return y;
+    }
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public int compareTo(Position position) {
+
     }
 }
 
