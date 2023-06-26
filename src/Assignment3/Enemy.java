@@ -2,15 +2,25 @@ package Assignment3;
 import java.util.Random;
 
 public abstract class Enemy extends Unit {
-
     private int experienceValue;
+    private EnemyDeathCallback callback;
 
     public Enemy(char tile, Position position, String name, Health health, int attackPoints,
-                 int defensePoints, int experienceValue) {
+                 int defensePoints, int experienceValue, GameBoard gameBoard) {
         super(tile, position, name, health, attackPoints, defensePoints);
         this.experienceValue = experienceValue;
+        this.callback = callback;
     }
 
+    public void setEnemyDeathCallback(EnemyDeathCallback callback) {
+        this.callback = callback;
+    }
+
+    protected void notifyEnemyDefeated() {
+        if (callback != null) {
+            callback.remove(this);
+        }
+    }
     public int getExperienceValue() {
         return experienceValue;
     }
@@ -29,7 +39,7 @@ public abstract class Enemy extends Unit {
     @Override
     public void accept(Unit unit) {
     }
-    public void accept(Player player,MessageCallback messageCallback) {
+    public void accept(Player player) {
         Random rand = new Random();
         int attackRoll = rand.nextInt(player.getAttackPoints());
         int defenseRoll = rand.nextInt(this.getDefensePoints());
@@ -38,8 +48,7 @@ public abstract class Enemy extends Unit {
             if(getHealth().getHealthAmount() <= 0){ //The Enemy died
                 player.setExperience(player.getExperience() + this.getExperienceValue());
                 player.setPosition(this.getPosition());
-                messageCallback.send("Enemy defeated");
-                //add remove function from GameBoard class (callBack)
+                notifyEnemyDefeated(); //calling to remove the enemy eho died
 
             }
         }else player.setTile('X');
@@ -65,14 +74,5 @@ public abstract class Enemy extends Unit {
     public void visit(Enemy e) {
     }
 
-    public void send(String s) {
-        // Handle the message sent from the enemy
-        if (s.equals("Enemy defeated")) {
-            // Perform the desired action when an enemy is defeated
-            // For example, you can remove the enemy from the game board
-            controller c = new controller();
-            //enemyDeath(enemy);
-        }
-    }
 
 }

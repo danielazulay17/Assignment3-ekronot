@@ -1,5 +1,5 @@
 package Assignment3;
-public abstract class Unit extends Tile implements MessageCallback {
+public abstract class Unit extends Tile {
 
     private String name;
     private Health health;
@@ -55,6 +55,9 @@ public abstract class Unit extends Tile implements MessageCallback {
 
     // This unit attempts to interact with another tile.
     public void interact(Tile tile){
+        //if wall - error
+        //if empty - visit(empty)
+        //...
     }
 
     public void visit(Empty e){
@@ -63,18 +66,13 @@ public abstract class Unit extends Tile implements MessageCallback {
 
     public abstract void visit(Player p);
     public abstract void visit(Enemy e);
-
     // Combat against another unit.
     protected void battle(Unit u){
-
+        //from Enemy accept(player)
     }
 
     public String describe() {
         return String.format("%s\t\tHealth: %s\t\tAttack: %d\t\tDefense: %d", getName(), getHealth(), getAttackPoints(), getDefensePoints());
     }
 
-    @Override
-    public abstract void send(String s);
-
-    }
 }

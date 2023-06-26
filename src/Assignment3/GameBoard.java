@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class GameBoard implements MessageCallback {
+public class GameBoard implements EnemyDeathCallback {
     private List<Tile> tiles;
 
     public GameBoard(Tile[][] board){
@@ -25,7 +25,7 @@ public class GameBoard implements MessageCallback {
         }
         throw new IllegalArgumentException("No tile found at position (" + x + ", " + y + ")");
     }
-
+    @Override
     public void remove(Enemy e) {
         tiles.remove(e);
         Position p = e.getPosition();
@@ -38,11 +38,5 @@ public class GameBoard implements MessageCallback {
         // TODO: Implement me
     }
 
-    public void send(String s, Enemy enemy) {
-        if (s.equals("Enemy defeated")) {
-            remove(enemy);
 
-    }
-
-
-}}
+}
