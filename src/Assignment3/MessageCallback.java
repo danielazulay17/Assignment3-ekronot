@@ -1,3 +1,4 @@
+package Assignment3;
 import java.util.Scanner;
 
 public interface MessageCallback {
@@ -10,8 +11,7 @@ class CLI {
     private MessageCallback m;
     private InputReader r;
 
-    public CLI(controller c) {
-        this.controller = c;
+    public CLI() {
 
         m = (S) -> displayMessage;
         r = () -> readLine();
@@ -28,10 +28,13 @@ class CLI {
 
     public Player getPlayer() {
         System.out.println("Select a player");
-        int i = printPlayers();
-        Player p = TileFactory.getPlayer(i);
+        TileFactory players = new TileFactory();
+        players.printPlayers();
+        int i = Integer.parseInt(r.read());  // Read the user's selection
+        Player p = players.getPlayer(i);
         p.initialize(m, r);
         return p;
 
     }
+
 }

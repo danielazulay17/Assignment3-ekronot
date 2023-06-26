@@ -1,6 +1,8 @@
+package Assignment3;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -16,7 +18,7 @@ public class TileFactory {
 
     private Map<Character, Supplier<Enemy>> initEnemies() {
         List<Supplier<Enemy>> enemies = Arrays.asList(
-                () -> new Monster('s', "Lannister Solider", 80, 8, 3,25, 3),
+                () -> new Monster('s',  "Lannister Solider", 80, 8, 3,25, 3),
                 () -> new Monster('k', "Lannister Knight", 200, 14, 8, 50,   4),
                 () -> new Monster('q', "Queen's Guard", 400, 20, 15, 100,  5),
                 () -> new Monster('z', "Wright", 600, 30, 15,100, 3),
@@ -50,14 +52,57 @@ public class TileFactory {
         return playersList.stream().map(Supplier::get).collect(Collectors.toList());
     }
 
-    // TODO: Add additional callbacks of your choice
-
-    public Enemy produceEnemy(char tile, Position position, ...) {
-        ...
+    public void printPlayers() {
+        List<Player> players = listPlayers();
+        for (int i = 0; i < players.size(); i++) {
+            System.out.println((i + 1) + ". " + players.get(i).getName());
+        }
     }
 
-    public Player producePlayer(int idx, ...){
-		...
+    public Player getPlayer(int index) {
+        List<Player> players = listPlayers();
+        if (index >= 0 && index < players.size()) {
+            return players.get(index);
+        } else {
+            throw new IllegalArgumentException("Invalid player index");
+        }
+    }
+
+    // TODO: Add additional callbacks of your choice
+
+    public Enemy produceEnemy(char tile, Position position, int health, int attack, int defense,
+                              int visionRange, int experienceValue, int visibilityTime, int inVisibilityTime) {
+        Supplier<Enemy> enemySupplier = enemiesMap.get(tile);
+        if (enemySupplier != null) {
+            Enemy enemy = enemySupplier.get();
+            enemy.setPosition(position);
+            enemy.getHealth().setHealthAmount(health);
+            enemy.setAttackPoints(attack);
+            enemy.setDefensePoints(defense);
+            enemy.setExperienceValue(experienceValue);
+            // Set any additional properties specific to the Enemy class
+            enemy.setVisionRange(visionRange);
+            enemy.setVisibilityTime(visibilityTime); // Set visibility time for traps
+            enemy.setInVisibilityTime(inVisibilityTime); // Set invisibility time for traps
+            return enemy;
+        }
+        return null; // or throw an exception if desired
+    }
+
+    public Player producePlayer(int idx, String name, int health, int attack, int defense) {
+        Supplier<Player> playerSupplier = playersList.get(idx);
+        if (playerSupplier != null) {
+            Player player = playerSupplier.get();
+            player.setName(name);
+            player.getHealth().setHealthAmount(health);
+            player.setAttackPoints(attack);
+            player.setDefensePoints(defense);
+            // Set any additional properties specific to the Player class
+            player.setExperience(0); // Set initial experience
+            player.setPlayerLevel(1); // Set initial player level
+            return player;
+        }
+        return null; // or throw an exception if desired
     }
 
     public Empty produceEmpty(Position position, ...){

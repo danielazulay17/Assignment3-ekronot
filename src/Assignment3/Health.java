@@ -1,3 +1,4 @@
+package Assignment3;
 public class Health {
 
     public int healthPool;

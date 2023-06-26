@@ -1,4 +1,6 @@
+package Assignment3;
 public abstract class Tile implements Comparable<Tile> {
+
     protected char tile;
     protected Position position;
 
@@ -8,7 +10,7 @@ public abstract class Tile implements Comparable<Tile> {
         this.position = position;
     }
 
-    protected Tile(char tile){
+    protected void setTile(char tile){
         this.tile = tile;
     }
 
@@ -42,6 +44,26 @@ public abstract class Tile implements Comparable<Tile> {
 
     public Position getCoordinates() {
         return position;
+    }
+    public int range(Unit p1, Unit p2) {
+       int p1X=p1.getPosition().getX();
+       int p1Y = p1.getPosition().getY();
+       int p2X = p2.getPosition().getX();
+       int p2Y = p2.getPosition().getY();
+       double range = Math.sqrt(Math.pow((p2Y-p1Y),2) + Math.pow((p2X-p1X),2));
+       return (int)range;
+    }
+    public int range(Position position, Unit p2) {
+        int p1X=position.getX();
+        int p1Y = position.getY();
+        int p2X = p2.getPosition().getX();
+        int p2Y = p2.getPosition().getY();
+        double range = Math.sqrt(Math.pow((p2Y-p1Y),2) + Math.pow((p2X-p1X),2));
+        return (int)range;
+    }
+    public int range (int pX, int pY, int eX, int eY){
+        double range = Math.sqrt(Math.pow((eY-pY),2) + Math.pow((eX-pX),2));
+        return (int)range;
     }
 
     public boolean isEmpty()
